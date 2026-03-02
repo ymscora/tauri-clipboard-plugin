@@ -1,0 +1,33 @@
+[package]
+name = "tauri-plugin-clipboard-pro"
+version = "0.1.2"
+authors = ["m3"]
+description = "High-performance Tauri v2 clipboard plugin with rich media and raw buffer support"
+readme = "README.md"
+homepage = "https://github.com/m3/tauri-clipboard-plugin"
+documentation = "https://docs.rs/tauri-plugin-clipboard-pro"
+license = "MIT"
+repository = "https://github.com/m3/tauri-clipboard-plugin"
+keywords = ["tauri", "tauri-plugin", "clipboard", "image", "files"]
+categories = ["api-bindings", "gui"]
+edition = "2021"
+rust-version = "1.77"
+links = "tauri-plugin-clipboard-pro"
+exclude = ["/guest-js/node_modules", "/examples"]
+
+[dependencies]
+clipboard-rs = "0.3.3"
+image = { version = "0.25", default-features = false, features = ["png", "webp"] }
+parking_lot = "0.12"
+serde = { version = "1", features = ["derive"] }
+tauri = "=2.10.2"
+thiserror = "2"
+
+[build-dependencies]
+tauri-plugin = { version = "=2.5.3", features = ["build"] }
+
+[dev-dependencies]
+tempfile = "3"
+
+[package.metadata.docs.rs]
+default-target = "x86_64-unknown-linux-gnu"

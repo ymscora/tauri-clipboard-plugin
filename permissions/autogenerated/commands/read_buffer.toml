@@ -1,0 +1,13 @@
+# Automatically generated - DO NOT EDIT!
+
+"$schema" = "../../schemas/schema.json"
+
+[[permission]]
+identifier = "allow-read-buffer"
+description = "Enables the read_buffer command without any pre-configured scope."
+commands.allow = ["read_buffer"]
+
+[[permission]]
+identifier = "deny-read-buffer"
+description = "Denies the read_buffer command without any pre-configured scope."
+commands.deny = ["read_buffer"]

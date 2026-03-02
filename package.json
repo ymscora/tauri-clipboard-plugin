@@ -1,0 +1,51 @@
+{
+  "name": "tauri-plugin-clipboard-pro-api",
+  "version": "0.1.2",
+  "description": "Tauri v2 clipboard plugin with media and raw buffer support",
+  "type": "module",
+  "main": "./dist-js/index.js",
+  "module": "./dist-js/index.js",
+  "types": "./dist-js/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist-js/index.d.ts",
+      "import": "./dist-js/index.js"
+    }
+  },
+  "files": [
+    "dist-js",
+    "README.md",
+    "README.zh-CN.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build:npm": "tsc -p tsconfig.npm.json",
+    "prepublishOnly": "npm run build:npm"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/m3/tauri-clipboard-plugin.git"
+  },
+  "homepage": "https://github.com/m3/tauri-clipboard-plugin",
+  "bugs": {
+    "url": "https://github.com/m3/tauri-clipboard-plugin/issues"
+  },
+  "license": "MIT",
+  "peerDependencies": {
+    "@tauri-apps/api": "^2.10.0"
+  },
+  "devDependencies": {
+    "@tauri-apps/api": "^2.10.0",
+    "typescript": "^5.9.3"
+  },
+  "keywords": [
+    "tauri",
+    "tauri-plugin",
+    "clipboard",
+    "clipboard-plugin",
+    "clipboard-rs"
+  ]
+}

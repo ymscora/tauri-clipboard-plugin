@@ -1,0 +1,145 @@
+:root {
+  --bg: #f4f6fb;
+  --card: #ffffff;
+  --line: #d6dce7;
+  --text: #192234;
+  --muted: #5f6e89;
+  --primary: #0c5bc3;
+  --primary-hover: #0a4ca2;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  color: var(--text);
+  background: radial-gradient(circle at 20% 10%, #e6edff 0%, #f4f6fb 35%, #eef2fa 100%);
+  font-family: "IBM Plex Sans", "Noto Sans SC", "Segoe UI", sans-serif;
+}
+
+.page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px;
+  display: grid;
+  gap: 16px;
+}
+
+.hero h1 {
+  margin: 0;
+  font-size: 28px;
+}
+
+.hero p {
+  margin: 8px 0 0;
+  color: var(--muted);
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 16px;
+  box-shadow: 0 8px 22px rgba(15, 31, 58, 0.06);
+}
+
+.card h2 {
+  margin: 0 0 12px;
+  font-size: 18px;
+}
+
+.row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+
+.grid-two {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.grid-two > div {
+  display: grid;
+  gap: 8px;
+  align-content: start;
+}
+
+label {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+label.inline {
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+}
+
+button,
+input,
+textarea {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 8px 10px;
+  font-size: 14px;
+}
+
+input,
+textarea {
+  width: 100%;
+  background: #fff;
+}
+
+textarea {
+  resize: vertical;
+}
+
+button {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: #fff;
+  cursor: pointer;
+  min-height: 36px;
+}
+
+button:hover {
+  background: var(--primary-hover);
+  border-color: var(--primary-hover);
+}
+
+button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+pre {
+  white-space: pre-wrap;
+  word-break: break-word;
+  font-size: 12px;
+  margin: 0;
+  background: #0d1321;
+  color: #d5ddf0;
+  border-radius: 8px;
+  padding: 10px;
+  max-height: 260px;
+  overflow: auto;
+}
+
+.logs pre {
+  margin-top: 8px;
+}
+
+@media (max-width: 900px) {
+  .page {
+    padding: 14px;
+  }
+
+  .grid-two {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,32 @@
+"$schema" = "schemas/schema.json"
+
+[default]
+description = "Default permissions for tauri-plugin-clipboard-pro"
+permissions = [
+  "allow-start-watch",
+  "allow-stop-watch",
+  "allow-available-formats",
+  "allow-has-text",
+  "allow-has-rtf",
+  "allow-has-html",
+  "allow-has-image",
+  "allow-has-files",
+  "allow-has-format",
+  "allow-read-text",
+  "allow-read-rtf",
+  "allow-read-html",
+  "allow-read-image",
+  "allow-read-files",
+  "allow-read-buffer",
+  "allow-read-clipboard",
+  "allow-write-text",
+  "allow-write-rtf",
+  "allow-write-html",
+  "allow-write-image",
+  "allow-write-image-bytes",
+  "allow-write-files",
+  "allow-write-video-files",
+  "allow-write-buffer",
+  "allow-clear",
+  "allow-get-file-path"
+]

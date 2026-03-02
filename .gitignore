@@ -1,0 +1,8 @@
+/target
+/node_modules
+/examples/tauri-app/node_modules
+/examples/tauri-app/dist
+/examples/tauri-app/src-tauri/target
+/guest-js/node_modules
+/dist-js
+.DS_Store
