@@ -9,19 +9,23 @@ VERIFY=1
 PUBLISH=1
 GITHUB_RELEASE=1
 PUBLISH_GPR=1
+ALLOW_DIRTY=0
+AUTO_COMMIT=0
 GITHUB_REPO=""
 VERSION=""
 
 usage() {
   cat <<USAGE
 Usage:
-  scripts/release.sh [version] [--dry-run] [--no-verify] [--no-publish] [--no-github-release] [--no-github-packages] [--github-repo owner/repo]
+  scripts/release.sh [version] [--dry-run] [--no-verify] [--no-publish] [--no-github-release] [--no-github-packages] [--allow-dirty] [--auto-commit] [--github-repo owner/repo]
 
 Examples:
   scripts/release.sh 0.1.1
   scripts/release.sh 0.1.1 --dry-run
   scripts/release.sh --no-publish
   scripts/release.sh 0.1.1 --github-repo m3/tauri-clipboard-plugin
+  scripts/release.sh 0.1.1 --allow-dirty
+  scripts/release.sh 0.1.1 --auto-commit
 
 Behavior:
   - Syncs version in Cargo.toml ([package].version) and package.json (version)
@@ -91,6 +95,14 @@ while [[ $# -gt 0 ]]; do
       PUBLISH_GPR=0
       shift
       ;;
+    --allow-dirty)
+      ALLOW_DIRTY=1
+      shift
+      ;;
+    --auto-commit)
+      AUTO_COMMIT=1
+      shift
+      ;;
     --github-repo)
       shift
       if [[ $# -eq 0 ]]; then
@@ -146,8 +158,30 @@ if [[ "$VERIFY" -eq 1 ]]; then
 fi
 
 if [[ "$PUBLISH" -eq 1 ]]; then
+  if [[ "$AUTO_COMMIT" -eq 1 ]]; then
+    if ! git diff --quiet || ! git diff --cached --quiet; then
+      log "Auto-commit dirty changes"
+      run_cmd "git add -A"
+      run_cmd "git commit -m \"chore(release): v$VERSION\""
+    else
+      log "Auto-commit requested but working tree is clean"
+    fi
+  fi
+
+  if [[ "$ALLOW_DIRTY" -eq 0 ]]; then
+    if ! git diff --quiet || ! git diff --cached --quiet; then
+      echo "[release] Working tree is dirty. Commit changes first, use --auto-commit, or use --allow-dirty to override." >&2
+      git status --short >&2 || true
+      exit 1
+    fi
+  fi
+
   log "Publish crate to crates.io"
-  run_cmd "cargo publish"
+  if [[ "$ALLOW_DIRTY" -eq 1 ]]; then
+    run_cmd "cargo publish --allow-dirty"
+  else
+    run_cmd "cargo publish"
+  fi
 
   log "Publish JS package to npmjs"
   run_cmd "npm publish --access public"

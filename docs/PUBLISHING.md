@@ -59,6 +59,8 @@ Useful flags:
 - `--no-publish`: sync versions and checks only
 - `--no-github-release`: skip GitHub release creation
 - `--no-github-packages`: skip GitHub Packages publishing
+- `--auto-commit`: auto commit dirty changes before publish (`chore(release): vX.Y.Z`)
+- `--allow-dirty`: allow publishing with uncommitted changes (not recommended)
 - `--github-repo owner/repo`: explicitly set GitHub repository
 
 By default, the script will:
@@ -161,6 +163,8 @@ npm publish --access public
 - `--no-publish`：仅同步版本并检查，不发布
 - `--no-github-release`：跳过 GitHub Release 创建
 - `--no-github-packages`：跳过 GitHub Packages 发布
+- `--auto-commit`：发布前自动提交改动（提交信息：`chore(release): vX.Y.Z`）
+- `--allow-dirty`：允许在有未提交改动时发布（不推荐）
 - `--github-repo owner/repo`：显式指定仓库
 
 脚本默认会自动执行：
