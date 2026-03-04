@@ -6,3 +6,4 @@
 /guest-js/node_modules
 /dist-js
 .DS_Store
+.pnpm-store
