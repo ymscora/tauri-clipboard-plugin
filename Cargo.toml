@@ -1,6 +1,6 @@
 [package]
 name = "tauri-plugin-clipboard-pro"
-version = "0.1.4"
+version = "0.0.1"
 authors = ["m3"]
 description = "High-performance Tauri v2 clipboard plugin with rich media and raw buffer support"
 readme = "README.md"

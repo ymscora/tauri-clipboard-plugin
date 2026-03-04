@@ -11,13 +11,14 @@ GITHUB_RELEASE=1
 PUBLISH_GPR=1
 ALLOW_DIRTY=0
 AUTO_COMMIT=0
+NPM_OTP_ARG=""
 GITHUB_REPO=""
 VERSION=""
 
 usage() {
   cat <<USAGE
 Usage:
-  scripts/release.sh [version] [--dry-run] [--no-verify] [--no-publish] [--no-github-release] [--no-github-packages] [--allow-dirty] [--auto-commit] [--github-repo owner/repo]
+  scripts/release.sh [version] [--dry-run] [--no-verify] [--no-publish] [--no-github-release] [--no-github-packages] [--allow-dirty] [--auto-commit] [--npm-otp 123456] [--github-repo owner/repo]
 
 Examples:
   scripts/release.sh 0.1.1
@@ -26,6 +27,7 @@ Examples:
   scripts/release.sh 0.1.1 --github-repo m3/tauri-clipboard-plugin
   scripts/release.sh 0.1.1 --allow-dirty
   scripts/release.sh 0.1.1 --auto-commit
+  scripts/release.sh 0.1.1 --npm-otp 123456
 
 Behavior:
   - Syncs version in Cargo.toml ([package].version) and package.json (version)
@@ -103,6 +105,15 @@ while [[ $# -gt 0 ]]; do
       AUTO_COMMIT=1
       shift
       ;;
+    --npm-otp)
+      shift
+      if [[ $# -eq 0 ]]; then
+        echo "--npm-otp requires a 6-digit code" >&2
+        exit 1
+      fi
+      NPM_OTP_ARG="$1"
+      shift
+      ;;
     --github-repo)
       shift
       if [[ $# -eq 0 ]]; then
@@ -138,6 +149,8 @@ fi
 if [[ -z "$GITHUB_REPO" ]]; then
   GITHUB_REPO="$(detect_github_repo || true)"
 fi
+
+NPM_OTP_VALUE="${NPM_OTP_ARG:-${NPM_OTP:-}}"
 
 log "Target version: $VERSION"
 
@@ -184,7 +197,29 @@ if [[ "$PUBLISH" -eq 1 ]]; then
   fi
 
   log "Publish JS package to npmjs"
-  run_cmd "npm publish --access public"
+  NPM_PUBLISH_ARGS="--access public"
+  if [[ -n "$NPM_OTP_VALUE" ]]; then
+    log "Use npm OTP code for publish"
+    NPM_PUBLISH_ARGS="$NPM_PUBLISH_ARGS --otp $NPM_OTP_VALUE"
+  fi
+
+  if [[ -n "${NPM_TOKEN:-}" ]]; then
+    log "Use NPM_TOKEN for npmjs publish"
+    if [[ "$DRY_RUN" -eq 1 ]]; then
+      printf '[dry-run] create .npmrc.npmjs.tmp (token hidden)\n'
+      printf '[dry-run] npm publish %s --userconfig .npmrc.npmjs.tmp --registry https://registry.npmjs.org/\n' "$NPM_PUBLISH_ARGS"
+      printf '[dry-run] remove .npmrc.npmjs.tmp\n'
+    else
+      cat > .npmrc.npmjs.tmp <<NPMRC
+//registry.npmjs.org/:_authToken=${NPM_TOKEN}
+always-auth=true
+NPMRC
+      npm publish $NPM_PUBLISH_ARGS --userconfig .npmrc.npmjs.tmp --registry https://registry.npmjs.org/
+      rm -f .npmrc.npmjs.tmp
+    fi
+  else
+    run_cmd "npm publish $NPM_PUBLISH_ARGS"
+  fi
 
   if [[ "$PUBLISH_GPR" -eq 1 ]]; then
     if [[ -z "$GITHUB_REPO" ]]; then

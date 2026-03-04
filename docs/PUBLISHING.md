@@ -46,6 +46,15 @@ npm login
 npm publish --access public
 ```
 
+If npm account 2FA is enabled:
+
+- Interactive publish: use `--npm-otp 123456` or `export NPM_OTP=123456`
+- CI/scripted publish: use a granular access token with publish permission and bypass-2FA enabled:
+
+```bash
+export NPM_TOKEN=YOUR_NPM_GRANULAR_TOKEN
+```
+
 ### One-click release script
 
 ```bash
@@ -60,6 +69,7 @@ Useful flags:
 - `--no-github-release`: skip GitHub release creation
 - `--no-github-packages`: skip GitHub Packages publishing
 - `--auto-commit`: auto commit dirty changes before publish (`chore(release): vX.Y.Z`)
+- `--npm-otp 123456`: pass npm 2FA OTP code for npmjs publish
 - `--allow-dirty`: allow publishing with uncommitted changes (not recommended)
 - `--github-repo owner/repo`: explicitly set GitHub repository
 
@@ -150,6 +160,15 @@ npm login
 npm publish --access public
 ```
 
+如果 npm 账号开启了 2FA：
+
+- 本机交互发布：用 `--npm-otp 123456` 或 `export NPM_OTP=123456`
+- CI/脚本发布：使用带发布权限且开启 bypass-2FA 的 granular token：
+
+```bash
+export NPM_TOKEN=你的_NPM_GRANULAR_TOKEN
+```
+
 ### 一键发布脚本
 
 ```bash
@@ -164,6 +183,7 @@ npm publish --access public
 - `--no-github-release`：跳过 GitHub Release 创建
 - `--no-github-packages`：跳过 GitHub Packages 发布
 - `--auto-commit`：发布前自动提交改动（提交信息：`chore(release): vX.Y.Z`）
+- `--npm-otp 123456`：发布到 npmjs 时携带 2FA OTP 验证码
 - `--allow-dirty`：允许在有未提交改动时发布（不推荐）
 - `--github-repo owner/repo`：显式指定仓库
 
